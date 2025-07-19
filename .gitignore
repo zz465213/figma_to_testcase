@@ -28,7 +28,6 @@ env/
 src/logs/
 
 # 環境變數檔案
-src/configs/.env
 .flaskenv
 .secrets.toml
 
@@ -40,7 +39,7 @@ src/configs/.env
 # 上傳檔案或媒體（通常不應直接納入版本控制）
 media/
 uploads/
-src/testcases
+framework_requirements/
 
 # 作業系統和通用檔案
 .DS_Store          # macOS

@@ -1,5 +1,4 @@
 import argparse
-import os.path
 import re
 from configs.common_paths import *
 from dotenv import load_dotenv
@@ -7,6 +6,7 @@ from services.figma_client import FigmaClient
 from services.figma_parser import FigmaParser
 from services.ai_generator import AIGenerator
 from services.excel_writer import ExcelWriter
+from services.rag_service import RAGService
 
 
 def main():
@@ -15,10 +15,10 @@ def main():
     google_api_key = os.getenv("GOOGLE_API_KEY")
 
     if not figma_api_key or figma_api_key == "YOUR_FIGMA_API_KEY":
-        print("錯誤：請在 .env 檔案中設定您的 FIGMA_API_KEY。")
+        print("錯誤：找不到 FIGMA_API_KEY。請設定環境變數，或在本機的 .env 檔案中設定。")
         return
     if not google_api_key or google_api_key == "YOUR_GOOGLE_API_KEY":
-        print("錯誤：請在 .env 檔案中設定您的 GOOGLE_API_KEY。")
+        print("錯誤：找不到 GOOGLE_API_KEY。請設定環境變數，或在本機的 .env 檔案中設定。")
         return
 
     parser = argparse.ArgumentParser(
@@ -28,6 +28,9 @@ def main():
     parser.add_argument("figma_url", type=str, help="您想要分析的 Figma 檔案的完整 URL。")
     args = parser.parse_args()
     print(f"成功接收到 Figma URL: {args.figma_url}")
+
+    rag_service = RAGService(google_api_key)
+    rag_service.build_or_load_index()
 
     figma_client = FigmaClient(figma_api_key)
     figma_file = figma_client.get_figma_file(args.figma_url)
@@ -40,14 +43,15 @@ def main():
     if not processed_data:
         return
 
-    ai_generator = AIGenerator(google_api_key)
+    ai_generator = AIGenerator(google_api_key, rag_service)
     test_cases = ai_generator.generate_test_cases(processed_data)
 
     if test_cases:
         file_name = re.sub(r'[\\/:*?"<>|]', '_', figma_file.get('name', 'figma_test_cases'))
         output_filename = f"{file_name}_test_cases.xlsx"
+        full_path = os.path.join(TESTCASES_DIR, output_filename)
         excel_writer = ExcelWriter(test_cases)
-        excel_writer.save_to_excel(os.path.join(TESTCASES_DIR, output_filename))
+        excel_writer.save_to_excel(full_path)
 
 
 if __name__ == "__main__":
