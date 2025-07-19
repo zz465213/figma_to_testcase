@@ -28,7 +28,6 @@ env/
 src/logs/
 
 # 環境變數檔案
-src/configs/.env
 .flaskenv
 .secrets.toml
 
