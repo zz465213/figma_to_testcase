@@ -25,12 +25,12 @@ env/
 
 # 日誌檔
 *.log
-logs/
+src/logs/
 
 # 環境變數檔案
+src/configs/.env
 .flaskenv
 .secrets.toml
-.env
 
 # 資料庫檔案
 *.sqlite3
