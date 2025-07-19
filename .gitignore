@@ -1,0 +1,59 @@
+# 編譯的位元組碼
+*.pyc
+__pycache__/
+
+# 虛擬環境
+.venv/
+venv/
+env/
+# 如果您使用 pipenv
+.pipenv/
+
+# IDE 和編輯器設定
+.idea/      
+.vscode     
+*.iml    
+.project
+.pydevproject
+.settings
+*.sublime-project
+*.sublime-workspace
+
+# 測試相關
+.pytest_cache/
+.coverage
+
+# 日誌檔
+*.log
+logs/
+
+# 環境變數檔案
+.env
+.flaskenv
+.secrets.toml
+
+# 資料庫檔案
+*.sqlite3
+*.db
+*.db-journal
+
+# 上傳檔案或媒體（通常不應直接納入版本控制）
+media/
+uploads/
+framework_requirements/
+
+# 作業系統和通用檔案
+.DS_Store          # macOS
+Thumbs.db          # Windows
+ehthumbs.db        # Windows
+Desktop.ini        # Windows
+
+# Jupyter Notebook 檢查點
+.ipynb_checkpoints/
+
+# 輸出檔案
+dist/
+build/
+*.egg-info/
+.eggs/
+reports/
