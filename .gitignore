@@ -30,6 +30,7 @@ logs/
 # 環境變數檔案
 .flaskenv
 .secrets.toml
+.env
 
 # 資料庫檔案
 *.sqlite3
